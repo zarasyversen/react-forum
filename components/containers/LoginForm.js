@@ -1,11 +1,13 @@
 import Button from '../elements/Button'
 import FieldGroup from '../elements/FieldGroup'
 import { useState } from "react";
+import { useRouter } from 'next/router'
 
 export default function Login() {
 
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter()
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -32,6 +34,7 @@ export default function Login() {
 
         if (result.username && result.password) {
           console.log('log me in');
+          router.push("/welcome");  
         }
       },
       // Note: it's important to handle errors here
