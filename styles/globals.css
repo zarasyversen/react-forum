@@ -188,7 +188,7 @@ img {
   font-size: var(--font-size__base);
   cursor: pointer;
   border: none;
-  margin: var(--padding-small) 0;
+  margin: var(--padding-small) var(--padding-small) var(--padding-small) 0;
 }
 
 .btn:focus{

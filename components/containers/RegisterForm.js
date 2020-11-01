@@ -3,10 +3,11 @@ import FieldGroup from '../elements/FieldGroup'
 import { useState } from "react";
 import { useRouter } from 'next/router'
 
-export default function LoginForm() {
+export default function RegisterForm() {
 
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
@@ -16,8 +17,9 @@ export default function LoginForm() {
     var formData = new FormData();
     formData.append('username', username);
     formData.append('password', password);
+    formData.append('confirm_password', confirmPassword);
 
-    fetch('http://php-project.test/api/login', {
+    fetch('http://php-project.test/api/register', {
       method: 'POST',
       body:formData,
       credentials: 'same-origin'
@@ -28,31 +30,28 @@ export default function LoginForm() {
 
         console.log(result);
 
-        if (result.missingUsername || result.missingPassword) {
+        if (result.missingUsername || result.missingPassword || result.confirmPassword) {
 
-          if(result.missingUsername) {
+          if (result.missingUsername) {
             setErrorMessage(result.missingUsername);
           }
 
-          if(result.missingPassword) {
+          if (result.missingPassword) {
             setErrorMessage(result.missingPassword);
+          }
+
+          if (result.confirmPassword) {
+            setErrorMessage(result.confirmPassword);
           }
 
           return;
         }
 
-        if (result.session_error) {
-          setErrorMessage(result.session_error);
-        }
-
-        if (result.username && result.password) {
-          console.log('log me in');
-          router.push("/welcome");  
+        if (result.session_success) {
+          router.push("/");  
         }
       },
-      // Note: it's important to handle errors here
-      // instead of a catch() block so that we don't swallow
-      // exceptions from actual bugs in components.
+
       (error) => {
         console.log(error);
       }
@@ -60,8 +59,7 @@ export default function LoginForm() {
   }
   return (
     <form onSubmit={handleSubmit} className="form">
-      <h2>Login</h2>
-      <p>Please fill in your credentials to login.</p>
+      <p>Please fill in this form to create an account.</p>
       <FieldGroup 
         id="username"
         label="Username"
@@ -76,11 +74,19 @@ export default function LoginForm() {
         value={password}
         setMethod={setPassword}
       />
+      <FieldGroup 
+        id="confirm_password"
+        label="Confirm Password"
+        inputType="password"
+        value={confirmPassword}
+        setMethod={setConfirmPassword}
+      />
       {errorMessage && 
         <p className="form__error">{errorMessage}</p>
       }
       <div className="form__group actions">
-        <Button type="submit" text="Login"/>
+        <Button type="submit" text="Submit"/>
+        <input type="reset" className="btn" value="Reset"/>
       </div>
     </form>
   )
