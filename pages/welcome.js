@@ -2,9 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import { useState, useEffect } from "react";
 
-
-
-export default function Register() {
+export default function Welcome() {
 
   const [isBusy, setBusy] = useState(true);
   const [activeUser, setActiveUser] = useState('');
@@ -51,7 +49,7 @@ export default function Register() {
       {isBusy ? (
        <p>Loading...</p>
       ) : (
-        <h1>Hi {activeUser} Welcome to our site</h1> 
+        <h1>Hi {activeUser}, Welcome to our site</h1> 
       )}
     </div>
   )
