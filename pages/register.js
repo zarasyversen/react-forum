@@ -4,8 +4,6 @@ import RegisterForm from '../components/containers/RegisterForm'
 import { useState } from "react";
 
 export default function Register() {
-  const [sessionMessage, setSessionMessage] = useState("");
-
   return (
     <div className="wrapper">
        <Head>
