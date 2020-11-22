@@ -1,9 +1,19 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import RegisterForm from '../components/containers/RegisterForm'
-import { useState } from "react";
+import { useEffect } from "react"
+import { useRouter } from 'next/router'
 
 export default function Register() {
+  const router = useRouter();
+  useEffect(() => {
+
+    if(localStorage.getItem('userToken')) {
+      router.push("/welcome");
+    }
+
+  }, [])
+
   return (
     <div className="wrapper">
        <Head>
