@@ -44,8 +44,7 @@ export default function LoginForm () {
 
           if (result.username && result.password) {
             localStorage.setItem('userToken', result.token)
-            console.log('log me in')
-            router.push('/welcome')
+            router.reload()
           }
         },
         // Note: it's important to handle errors here

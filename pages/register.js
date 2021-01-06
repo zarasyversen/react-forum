@@ -8,7 +8,7 @@ export default function Register () {
   const router = useRouter()
   useEffect(() => {
     if (localStorage.getItem('userToken')) {
-      router.push('/welcome')
+      router.push('')
     }
   }, [])
 
