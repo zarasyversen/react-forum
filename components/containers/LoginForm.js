@@ -65,6 +65,7 @@ export default function LoginForm () {
         label="Username"
         inputType="text"
         value={username}
+        autocomplete="username"
         setMethod={setUserName}
       />
       <FieldGroup
@@ -72,6 +73,7 @@ export default function LoginForm () {
         label="Password"
         inputType="password"
         value={password}
+        autocomplete="current-password"
         setMethod={setPassword}
       />
       {errorMessage &&

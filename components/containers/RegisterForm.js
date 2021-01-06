@@ -1,87 +1,87 @@
 import Button from '../elements/Button'
 import FieldGroup from '../elements/FieldGroup'
-import { useState } from "react";
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 
-export default function RegisterForm() {
+export default function RegisterForm () {
+  const [username, setUserName] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const router = useRouter()
 
-  const [username, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const router = useRouter();
+  function handleSubmit (event) {
+    event.preventDefault()
 
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    var formData = new FormData();
-    formData.append('username', username);
-    formData.append('password', password);
-    formData.append('confirm_password', confirmPassword);
+    const formData = new FormData()
+    formData.append('username', username)
+    formData.append('password', password)
+    formData.append('confirm_password', confirmPassword)
 
     fetch('http://php-project.test/api/register', {
       method: 'POST',
-      body:formData,
+      body: formData,
       credentials: 'same-origin'
     })
-    .then(response => response.json())
-    .then(
-      (result) => {
+      .then(response => response.json())
+      .then(
+        (result) => {
+          console.log(result)
 
-        console.log(result);
+          if (result.missingUsername || result.missingPassword || result.confirmPassword) {
+            if (result.missingUsername) {
+              setErrorMessage(result.missingUsername)
+            }
 
-        if (result.missingUsername || result.missingPassword || result.confirmPassword) {
+            if (result.missingPassword) {
+              setErrorMessage(result.missingPassword)
+            }
 
-          if (result.missingUsername) {
-            setErrorMessage(result.missingUsername);
+            if (result.confirmPassword) {
+              setErrorMessage(result.confirmPassword)
+            }
+
+            return
           }
 
-          if (result.missingPassword) {
-            setErrorMessage(result.missingPassword);
+          if (result.session_success) {
+            router.push('/')
           }
+        },
 
-          if (result.confirmPassword) {
-            setErrorMessage(result.confirmPassword);
-          }
-
-          return;
+        (error) => {
+          console.log(error)
         }
-
-        if (result.session_success) {
-          router.push("/");  
-        }
-      },
-
-      (error) => {
-        console.log(error);
-      }
-    )
+      )
   }
   return (
     <form onSubmit={handleSubmit} className="form">
       <p>Please fill in this form to create an account.</p>
-      <FieldGroup 
+      <FieldGroup
         id="username"
         label="Username"
         inputType="text"
         value={username}
+        autocomplete="username"
         setMethod={setUserName}
       />
-      <FieldGroup 
+      <FieldGroup
         id="password"
         label="Password"
         inputType="password"
         value={password}
+        autocomplete="new-password"
         setMethod={setPassword}
       />
-      <FieldGroup 
+      <FieldGroup
         id="confirm_password"
         label="Confirm Password"
         inputType="password"
         value={confirmPassword}
+        autocomplete="new-password"
         setMethod={setConfirmPassword}
       />
-      {errorMessage && 
+      {errorMessage &&
         <p className="form__error">{errorMessage}</p>
       }
       <div className="form__group actions">
