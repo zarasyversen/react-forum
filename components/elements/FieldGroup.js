@@ -1,4 +1,4 @@
-export default function FieldGroup( {id, label, inputType, value, setMethod = null}) {
+export default function FieldGroup ({ id, label, inputType, value, setMethod = null }) {
   return (
     <div className="form__group">
       <label htmlFor={id}>

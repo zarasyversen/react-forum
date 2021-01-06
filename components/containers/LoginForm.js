@@ -1,83 +1,80 @@
 import Button from '../elements/Button'
 import FieldGroup from '../elements/FieldGroup'
-import { useState } from "react";
+import { useState } from 'react'
 import { useRouter } from 'next/router'
 
-export default function LoginForm() {
+export default function LoginForm () {
+  const [username, setUserName] = useState('')
+  const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const router = useRouter()
 
-  const [username, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const router = useRouter();
+  function handleSubmit (event) {
+    event.preventDefault()
 
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    var formData = new FormData();
-    formData.append('username', username);
-    formData.append('password', password);
+    const formData = new FormData()
+    formData.append('username', username)
+    formData.append('password', password)
 
     fetch('http://php-project.test/api/login', {
       method: 'POST',
-      body:formData,
+      body: formData,
       credentials: 'same-origin'
     })
-    .then(response => response.json())
-    .then(
-      (result) => {
+      .then(response => response.json())
+      .then(
+        (result) => {
+          console.log(result)
 
-        console.log(result);
+          if (result.missingUsername || result.missingPassword) {
+            if (result.missingUsername) {
+              setErrorMessage(result.missingUsername)
+            }
 
-        if (result.missingUsername || result.missingPassword) {
+            if (result.missingPassword) {
+              setErrorMessage(result.missingPassword)
+            }
 
-          if(result.missingUsername) {
-            setErrorMessage(result.missingUsername);
+            return
           }
 
-          if(result.missingPassword) {
-            setErrorMessage(result.missingPassword);
+          if (result.session_error) {
+            setErrorMessage(result.session_error)
           }
 
-          return;
+          if (result.username && result.password) {
+            localStorage.setItem('userToken', result.token)
+            console.log('log me in')
+            router.push('/welcome')
+          }
+        },
+        // Note: it's important to handle errors here
+        // instead of a catch() block so that we don't swallow
+        // exceptions from actual bugs in components.
+        (error) => {
+          console.log(error)
         }
-
-        if (result.session_error) {
-          setErrorMessage(result.session_error);
-        }
-
-        if (result.username && result.password) {
-          localStorage.setItem('userToken', result.token);
-          console.log('log me in');
-          router.push("/welcome");  
-        }
-      },
-      // Note: it's important to handle errors here
-      // instead of a catch() block so that we don't swallow
-      // exceptions from actual bugs in components.
-      (error) => {
-        console.log(error);
-      }
-    )
+      )
   }
   return (
     <form onSubmit={handleSubmit} className="form">
       <h2>Login</h2>
       <p>Please fill in your credentials to login.</p>
-      <FieldGroup 
+      <FieldGroup
         id="username"
         label="Username"
         inputType="text"
         value={username}
         setMethod={setUserName}
       />
-      <FieldGroup 
+      <FieldGroup
         id="password"
         label="Password"
         inputType="password"
         value={password}
         setMethod={setPassword}
       />
-      {errorMessage && 
+      {errorMessage &&
         <p className="form__error">{errorMessage}</p>
       }
       <div className="form__group actions">
