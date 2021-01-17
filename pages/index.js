@@ -2,12 +2,14 @@ import Head from 'next/head'
 import Link from 'next/link'
 import LoginForm from '../components/containers/LoginForm'
 import SessionMessage from '../components/elements/SessionMessage'
+import PostList from '../components/presentational/PostList'
 import { useEffect, useState } from 'react'
 
 export default function Index () {
   const [isBusy, setBusy] = useState(true)
   const [activeUser, setActiveUser] = useState('')
   const [pageTitle, setPageTitle] = useState('')
+  const [allPosts, setAllPosts] = useState([])
 
   useEffect(() => {
     async function getData () {
@@ -30,6 +32,7 @@ export default function Index () {
               setPageTitle('Welcome, please log in')
             } else {
               setActiveUser(result.activeUser.name)
+              setAllPosts(result.postList)
               setPageTitle('Welcome')
             }
           }
@@ -51,8 +54,12 @@ export default function Index () {
           <SessionMessage type="success" text="Hello there" />
           {activeUser &&
             <>
-            <h1>Hi {activeUser}, Welcome to our site</h1>
-            <p><Link href="/logout"><a>Logout</a></Link>.</p>
+              <h1>Hi {activeUser}, Welcome to our site</h1>
+              <p><Link href="/logout"><a>Logout</a></Link>.</p>
+              <section className="posts">
+                <h2>Posts</h2>
+                <PostList postList={allPosts} />
+              </section>
             </>
           }
           {!activeUser &&
