@@ -28,8 +28,8 @@ function Post ({ postData, index }) {
   )
 }
 
-Post.proptypes = {
-  postData: PropTypes.array.isRequired
+Post.propTypes = {
+  postData: PropTypes.object.isRequired
 }
 
 export default Post

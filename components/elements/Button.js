@@ -12,7 +12,7 @@ Button.defaultProps = {
   onClick: null
 }
 
-Button.proptypes = {
+Button.propTypes = {
   type: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   onClick: PropTypes.func

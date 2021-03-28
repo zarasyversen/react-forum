@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-function FieldGroup ({ id, label, inputType, value, autocomplete, setMethod}) {
+function FieldGroup ({ id, label, inputType, value, autocomplete, setMethod }) {
   return (
     <div className="form__group">
       <label htmlFor={id}>
@@ -22,7 +22,7 @@ FieldGroup.defaultProps = {
   setMethod: null
 }
 
-FieldGroup.proptypes = {
+FieldGroup.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   inputType: PropTypes.string.isRequired,

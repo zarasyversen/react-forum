@@ -28,7 +28,7 @@ function SessionMessage ({ type, text }) {
   )
 }
 
-SessionMessage.proptypes = {
+SessionMessage.propTypes = {
   type: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired
 }
