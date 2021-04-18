@@ -3,6 +3,7 @@ import Link from 'next/link'
 import LoginForm from '../components/containers/LoginForm'
 import SessionMessage from '../components/elements/SessionMessage'
 import PostList from '../components/presentational/PostList'
+import NavBar from '../components/presentational/NavBar'
 import { useEffect, useState } from 'react'
 
 export default function Index () {
@@ -54,8 +55,8 @@ export default function Index () {
           <SessionMessage type="success" text="Hello there" />
           {activeUser &&
             <>
+              <NavBar userName={activeUser} />
               <h1>Hi {activeUser}, Welcome to our site</h1>
-              <p><Link href="/logout"><a>Logout</a></Link>.</p>
               <section className="posts">
                 <h2>Posts</h2>
                 <PostList postList={allPosts} />

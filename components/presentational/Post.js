@@ -19,8 +19,7 @@ function Post ({ postData, index }) {
               <>
                 Posted <time dateTime={postData.createdDate}>{postData.createdDate}</time>
               </>
-            )}
-            by {postData.author.name}
+            )} by {postData.author.name}
           </p>
         </footer>
       </article>
