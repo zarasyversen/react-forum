@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 export default function Index () {
   const [isBusy, setBusy] = useState(true)
   const [activeUser, setActiveUser] = useState('')
+  const [activeUserId, setActiveUserId] = useState('')
   const [pageTitle, setPageTitle] = useState('')
   const [allPosts, setAllPosts] = useState([])
 
