@@ -9,7 +9,7 @@ export default function Index () {
   const [isBusy, setBusy] = useState(true)
   const [activeUser, setActiveUser] = useState('')
   const [pageTitle, setPageTitle] = useState('')
-  const [allPosts, setAllPosts] = useState({})
+  const [allPosts, setAllPosts] = useState([])
 
   useEffect(() => {
     async function getData () {

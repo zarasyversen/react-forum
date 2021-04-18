@@ -18,7 +18,7 @@ function PostList ({ postList }) {
 }
 
 PostList.propTypes = {
-  postList: PropTypes.object.isRequired
+  postList: PropTypes.array.isRequired
 }
 
 export default PostList
