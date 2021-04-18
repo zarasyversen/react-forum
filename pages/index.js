@@ -3,13 +3,15 @@ import Link from 'next/link'
 import LoginForm from '../components/containers/LoginForm'
 import SessionMessage from '../components/elements/SessionMessage'
 import PostList from '../components/presentational/PostList'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
+import { AuthContext, useAppContext } from '../state/AuthContext'
 
 export default function Index () {
   const [isBusy, setBusy] = useState(true)
   const [activeUser, setActiveUser] = useState('')
   const [pageTitle, setPageTitle] = useState('')
   const [allPosts, setAllPosts] = useState([])
+  const { ...state } = useContext(AuthContext)
 
   useEffect(() => {
     async function getData () {
@@ -29,11 +31,9 @@ export default function Index () {
           (result) => {
             setBusy(false)
             if (result.error) {
-              setPageTitle('Welcome, please log in')
+              //no login
             } else {
-              setActiveUser(result.activeUser.name)
-              setAllPosts(result.postList)
-              setPageTitle('Welcome')
+              // state.login()
             }
           }
         )
@@ -52,7 +52,7 @@ export default function Index () {
       ) : (
         <>
           <SessionMessage type="success" text="Hello there" />
-          {activeUser &&
+          {state.isLoggedIn &&
             <>
               <h1>Hi {activeUser}, Welcome to our site</h1>
               <p><Link href="/logout"><a>Logout</a></Link>.</p>
@@ -62,7 +62,7 @@ export default function Index () {
               </section>
             </>
           }
-          {!activeUser &&
+          {!state.isLoggedIn &&
           <>
             <h1>Welcome to our site.</h1>
             <LoginForm />
