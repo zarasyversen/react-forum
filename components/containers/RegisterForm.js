@@ -18,7 +18,7 @@ export default function RegisterForm () {
     formData.append('password', password)
     formData.append('confirm_password', confirmPassword)
 
-    fetch('http://php-project.test/api/register', {
+    fetch('https://php-project.test/api/register', {
       method: 'POST',
       body: formData,
       credentials: 'same-origin'

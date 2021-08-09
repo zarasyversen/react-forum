@@ -16,7 +16,7 @@ export default function LoginForm () {
     formData.append('username', username)
     formData.append('password', password)
 
-    fetch('http://php-project.test/api/login', {
+    fetch('https://php-project.test/api/login', {
       method: 'POST',
       body: formData,
       credentials: 'same-origin'
