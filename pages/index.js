@@ -9,7 +9,6 @@ import { useEffect, useState } from 'react'
 export default function Index () {
   const [isBusy, setBusy] = useState(true)
   const [activeUser, setActiveUser] = useState('')
-  const [activeUserId, setActiveUserId] = useState('')
   const [pageTitle, setPageTitle] = useState('')
   const [allPosts, setAllPosts] = useState([])
 
@@ -21,7 +20,7 @@ export default function Index () {
         headers.Authorization = `${token}`
       }
 
-      fetch('http://php-project.test/api/welcome', {
+      fetch('https://php-project.test/api/welcome', {
         method: 'POST',
         headers,
         credentials: 'same-origin'
@@ -33,7 +32,8 @@ export default function Index () {
             if (result.error) {
               setPageTitle('Welcome, please log in')
             } else {
-              setActiveUser(result.activeUser.name)
+              console.log(result);
+              setActiveUser(result.activeUser)
               setAllPosts(result.postList)
               setPageTitle('Welcome')
             }
@@ -56,11 +56,11 @@ export default function Index () {
           <SessionMessage type="success" text="Hello there" />
           {activeUser &&
             <>
-              <NavBar userName={activeUser} />
-              <h1>Hi {activeUser}, Welcome to our site</h1>
+              <NavBar userName={activeUser.name} />
+              <h1>Hi {activeUser.name}, Welcome to our site</h1>
               <section className="posts">
                 <h2>Posts</h2>
-                <PostList postList={allPosts} />
+                <PostList postList={allPosts} canEdit={activeUser}/>
               </section>
             </>
           }

@@ -17,7 +17,7 @@ const Profile = () => {
       headers.Authorization = `${token}`
     }
 
-    fetch('http://php-project.test/api/profile/' + name, {
+    fetch('https://php-project.test/api/profile/' + name, {
       method: 'POST',
       headers,
       credentials: 'same-origin'
@@ -25,10 +25,9 @@ const Profile = () => {
       .then(response => response.json())
       .then(
         (result) => {
-          console.log(result)
           setUser(result.user)
-          setCanEdit(result.canEdit)
           setUserPosts(result.postList)
+          setCanEdit(result.canEdit);
         }
       )
   }
@@ -44,7 +43,7 @@ const Profile = () => {
       </header>
       <aside className="page-sidebar">
         {user.avatar && 
-         <img src={`http://php-project.test/${user.avatar}`}/>
+         <img src={`https://php-project.test/${user.avatar}`}/>
         }
         <p>Profile created: {user.createdAt}</p>
         {user.isAdmin && 
@@ -54,9 +53,9 @@ const Profile = () => {
       <main className="page-main">
         <section className="profile__posts">
           <h2>Posts by {user.name}</h2>
-          <PostList postList={userPosts} />
+          <PostList postList={userPosts} canEdit={canEdit}></PostList>
         </section>
-        <a href="/welcome">Return to all posts</a>
+        <a href="/">Return to all posts</a>
       </main>
     </div>
     </>

@@ -1,6 +1,24 @@
 import PropTypes from 'prop-types'
+import Link from 'next/link'
+import { useState, useEffect } from 'react'
 
-function Post ({ postData, index }) {
+function Post ({ postData, canEdit, index }) {
+  const [showEdit, setShowEdit] = useState(false)
+
+  useEffect(() => {
+
+    /// if its from index postlist, it passes the user so need to check if its an object, dont have anything else available
+    /// from profile page, it is passing canEdit from the data which is a bool
+    if (typeof(canEdit) === 'object') {
+      if(canEdit.id === postData.author.id || canEdit.isAdmin) {
+        setShowEdit(true);
+      }
+    } else {
+      setShowEdit(canEdit);
+    }
+  }, [canEdit])
+  
+
   return (
     <li key={index}>
       <article className="post">
@@ -19,7 +37,10 @@ function Post ({ postData, index }) {
               <>
                 Posted <time dateTime={postData.createdDate}>{postData.createdDate}</time>
               </>
-            )} by {postData.author.name}
+            )} by <Link href={`profile/${postData.author.name}`}><a>{postData.author.name}</a></Link>. 
+            {showEdit && (
+             <Link href={`edit/${postData.postId}`}><a>Edit</a></Link>
+            )} 
           </p>
         </footer>
       </article>
