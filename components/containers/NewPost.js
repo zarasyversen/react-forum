@@ -3,7 +3,7 @@ import FieldGroup from '../elements/FieldGroup'
 import TextArea from '../elements/TextArea'
 import { useState } from 'react'
 
-export default function NewPost () {
+export default function NewPost ( props ) {
   const [postTitle, setPostTitle] = useState('')
   const [postMessage, setPostMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
@@ -41,6 +41,9 @@ export default function NewPost () {
           if (result.session_success) {
             // posted add message
             // update post list 
+            setPostTitle('')
+            setPostMessage('')
+            props.updatePostsMethod()
           }
         },
 
@@ -61,6 +64,7 @@ export default function NewPost () {
             inputType="text"
             value={postTitle}
             setMethod={setPostTitle}
+            placeHolder="Title"
           />
           <TextArea
             id="message"

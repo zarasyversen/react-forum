@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-function FieldGroup ({ id, label, inputType, value, autocomplete, setMethod }) {
+function FieldGroup ({ id, label, inputType, value, autocomplete, setMethod, placeHolder }) {
   return (
     <div className="form__group">
       <label htmlFor={id}>
@@ -13,6 +13,7 @@ function FieldGroup ({ id, label, inputType, value, autocomplete, setMethod }) {
         className="form__input"
         value={value}
         autoComplete={autocomplete}
+        placeholder={placeHolder}
         onChange={e => setMethod(e.target.value)}
       />
     </div>
@@ -29,7 +30,8 @@ FieldGroup.propTypes = {
   inputType: PropTypes.string.isRequired,
   value: PropTypes.string,
   autocomplete: PropTypes.string,
-  setMethod: PropTypes.func
+  setMethod: PropTypes.func,
+  placeHolder: PropTypes.string
 }
 
 export default FieldGroup

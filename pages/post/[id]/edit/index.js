@@ -37,14 +37,6 @@ const Edit = () => {
       })
   }
 
-  function handleTitleChange(event) {
-    setPostTitle(event.target.value)
-  }
-
-  function handleMessageChange(event) {
-    setPostMessage(event.target.value)
-  }
-
   function handleSubmit(event) {
     ////
     event.preventDefault()
@@ -129,11 +121,11 @@ const Edit = () => {
             label="Title"
             inputType="text"
             value={postTitle}
-            setMethod={handleTitleChange}
+            setMethod={setPostTitle}
           />
           <TextArea
             id="message"
-            setMethod={handleMessageChange}
+            setMethod={setPostMessage}
             value={postMessage}
             label="Message"
           />

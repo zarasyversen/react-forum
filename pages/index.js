@@ -13,36 +13,41 @@ export default function Index () {
   const [pageTitle, setPageTitle] = useState('')
   const [allPosts, setAllPosts] = useState([])
 
-  useEffect(() => {
-    async function getData () {
-      const token = localStorage.getItem('userToken')
-      const headers = { 'Content-Type': 'application/json' }
-      if (token) {
-        headers.Authorization = `${token}`
-      }
-
-      fetch('https://php-project.test/api/welcome', {
-        method: 'POST',
-        headers,
-        credentials: 'same-origin'
-      })
-        .then(response => response.json())
-        .then(
-          (result) => {
-            setBusy(false)
-            if (result.error) {
-              setPageTitle('Welcome, please log in')
-            } else {
-              console.log(result);
-              setActiveUser(result.activeUser)
-              setAllPosts(result.postList)
-              setPageTitle('Welcome')
-            }
-          }
-        )
+  function getData () {
+    const token = localStorage.getItem('userToken')
+    const headers = { 'Content-Type': 'application/json' }
+    if (token) {
+      headers.Authorization = `${token}`
     }
+
+    fetch('https://php-project.test/api/welcome', {
+      method: 'POST',
+      headers,
+      credentials: 'same-origin'
+    })
+      .then(response => response.json())
+      .then(
+        (result) => {
+          setBusy(false)
+          if (result.error) {
+            setPageTitle('Welcome, please log in')
+          } else {
+            console.log(result);
+            setActiveUser(result.activeUser)
+            setAllPosts(result.postList)
+            setPageTitle('Welcome')
+          }
+        }
+      )
+  }
+
+  useEffect(() => {
     getData()
   }, [])
+
+  function updatePosts() {
+    getData();
+  }
 
   return (
     <div className="wrapper">
@@ -59,7 +64,7 @@ export default function Index () {
             <>
               <NavBar userName={activeUser.name} />
               <h1>Hi {activeUser.name}, Welcome to our site</h1>
-              <NewPost />
+              <NewPost updatePostsMethod={updatePosts}/>
               <section className="posts">
                 <h2>Posts</h2>
                 <PostList postList={allPosts} canEdit={activeUser}/>
