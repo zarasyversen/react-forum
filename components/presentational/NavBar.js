@@ -6,7 +6,7 @@ function NavBar ({ userName }) {
     <nav className="menu">
       <ul className="menu__list">
         <li className="menu__item menu__item--indicator">
-          <span>>></span>
+          <span>{`>>`}</span>
         </li>
         <li className="menu__item">
           <Link href={`profile/${userName}`} className="menu__title"><a>My Profile</a></Link>

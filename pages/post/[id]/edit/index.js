@@ -8,6 +8,7 @@ const Edit = () => {
   const [post, setPost] = useState({})
   const [postTitle, setPostTitle] = useState('')
   const [postMessage, setPostMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   const token = localStorage.getItem('userToken');
 
@@ -65,7 +66,19 @@ const Edit = () => {
       .then((result) => {
           console.log(result)
           // add message - redirect back
-          router.push('/');
+
+          if (result.session_success) {
+              router.push('/');
+          }
+
+          if (result.message_err) {
+            setErrorMessage(result.message_err);
+          }
+
+          if (result.title_err) {
+            setErrorMessage(result.title_err);
+          }
+
         }
       )
       .catch(function(error) {
@@ -93,7 +106,10 @@ const Edit = () => {
         .then((result) => {
             console.log(result)
             // add message - redirect back
-            router.push('/');
+            if (result.session_success) {
+              router.push('/');
+            }
+
           }
         )
         .catch(function(error) {
@@ -136,6 +152,7 @@ const Edit = () => {
                 rows="5" 
                 cols="33"></textarea>
             </div>
+            {errorMessage}
             <div className="form__group actions">
                 <button type="submit" className="btn btn--primary">Save new message</button>
             </div>
