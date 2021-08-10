@@ -9,6 +9,7 @@ function FieldGroup ({ id, label, inputType, value, autocomplete, setMethod }) {
       <input
         type={inputType}
         name={id}
+        id={id}
         className="form__input"
         value={value}
         autoComplete={autocomplete}

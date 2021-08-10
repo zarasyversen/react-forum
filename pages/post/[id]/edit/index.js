@@ -1,6 +1,9 @@
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import Head from 'next/head'
+import Button from '../../../../components/elements/Button'
+import FieldGroup from '../../../../components/elements/FieldGroup'
+import TextArea from '../../../../components/elements/TextArea'
 
 const Edit = () => {
   const router = useRouter()
@@ -121,45 +124,21 @@ const Edit = () => {
       <div className="wrapper">
         <h1>Edit your post</h1>
         <form onSubmit={handleSubmit} method="post" className="form">
-          <div className="form__group">
-            <label htmlFor="title">Title</label>
-            <input
-              type="text"
-              name="title"
-              id="title"
-              className="form__input"
-              value={postTitle}
-              onChange={handleTitleChange}
-            />
-          </div>
-          <div className="form__group">
-            <label htmlFor="message">Message</label>
-            <textarea
-              id="message"
-              name="message"
-              className="form__input"
-              placeholder="Please enter your message here..."
-              onChange={handleMessageChange}
-              value={postMessage}
-              rows="5"
-              cols="33"
-            ></textarea>
-          </div>
+          <FieldGroup
+            id="title"
+            label="Title"
+            inputType="text"
+            value={postTitle}
+            setMethod={handleTitleChange}
+          />
+          <TextArea id="message" setMethod={handleMessageChange} value={postMessage} label="Message"/>
           {errorMessage}
           <div className="form__group actions">
-            <button type="submit" className="btn btn--primary">
-              Save new message
-            </button>
+            <Button type="submit" text="Save new message" />
           </div>
         </form>
         <div className="post__actions">
-          <button
-            type="button"
-            className="btn btn--primary delete"
-            onClick={deletePost}
-          >
-            Delete Post
-          </button>
+          <Button type="button" text="Delete Post" cssClass="delete" onClick={deletePost}/>
           <a href="/">Cancel</a>
         </div>
       </div>
