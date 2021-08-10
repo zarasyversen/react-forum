@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import ReactMarkdown from 'react-markdown'
 
 function Post ({ postData, canEdit, index }) {
   const [showEdit, setShowEdit] = useState(false)
@@ -25,7 +26,9 @@ function Post ({ postData, canEdit, index }) {
         <header className="post__header">
           <h2 className="post__title">{postData.title}</h2>
         </header>
-        <div className="post__message">{postData.message}</div>
+        <div className="post__message">
+          <ReactMarkdown>{postData.message}</ReactMarkdown>
+        </div>
         <footer className="post__footer">
           <p className="post__details">
             {postData.updatedDate && (
