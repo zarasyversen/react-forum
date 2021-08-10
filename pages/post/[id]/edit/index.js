@@ -131,14 +131,24 @@ const Edit = () => {
             value={postTitle}
             setMethod={handleTitleChange}
           />
-          <TextArea id="message" setMethod={handleMessageChange} value={postMessage} label="Message"/>
+          <TextArea
+            id="message"
+            setMethod={handleMessageChange}
+            value={postMessage}
+            label="Message"
+          />
           {errorMessage}
           <div className="form__group actions">
             <Button type="submit" text="Save new message" />
           </div>
         </form>
         <div className="post__actions">
-          <Button type="button" text="Delete Post" cssClass="delete" onClick={deletePost}/>
+          <Button
+            type="button"
+            text="Delete Post"
+            cssClass="delete"
+            onClick={deletePost}
+          />
           <a href="/">Cancel</a>
         </div>
       </div>
