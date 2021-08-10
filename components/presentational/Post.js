@@ -39,7 +39,7 @@ function Post ({ postData, canEdit, index }) {
               </>
             )} by <Link href={`profile/${postData.author.name}`}><a>{postData.author.name}</a></Link>. 
             {showEdit && (
-             <Link href={`edit/${postData.postId}`}><a>Edit</a></Link>
+             <Link href={`/post/${postData.postId}/edit/`}><a>Edit</a></Link>
             )} 
           </p>
         </footer>
