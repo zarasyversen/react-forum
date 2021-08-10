@@ -11,7 +11,7 @@ function TextArea ({ id, label, value, setMethod }) {
           name={id}
           className="form__input"
           placeholder="Please enter your message here..."
-          onChange={setMethod}
+          onChange={e => setMethod(e.target.value)}
           value={value}
           rows="5"
           cols="33"

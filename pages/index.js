@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import LoginForm from '../components/containers/LoginForm'
+import NewPost from '../components/containers/NewPost'
 import SessionMessage from '../components/elements/SessionMessage'
 import PostList from '../components/presentational/PostList'
 import NavBar from '../components/presentational/NavBar'
@@ -58,6 +59,7 @@ export default function Index () {
             <>
               <NavBar userName={activeUser.name} />
               <h1>Hi {activeUser.name}, Welcome to our site</h1>
+              <NewPost />
               <section className="posts">
                 <h2>Posts</h2>
                 <PostList postList={allPosts} canEdit={activeUser}/>

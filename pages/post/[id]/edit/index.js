@@ -137,7 +137,9 @@ const Edit = () => {
             value={postMessage}
             label="Message"
           />
-          {errorMessage}
+          {errorMessage &&
+            <p className="form__error">{errorMessage}</p>
+          }
           <div className="form__group actions">
             <Button type="submit" text="Save new message" />
           </div>
