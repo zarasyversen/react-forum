@@ -39,7 +39,7 @@ function Post ({ postData, canEdit, index }) {
               <>
                 Posted <time dateTime={postData.createdDate}>{postData.createdDate}</time>
               </>
-            )} by <Link href={`profile/${postData.author.name}`}><a>{postData.author.name}</a></Link>. 
+            )} by <Link href={`/profile/${postData.author.name}`}><a>{postData.author.name}</a></Link>. 
             {showEdit && (
              <Link href={`/post/${postData.postId}/edit/`}><a>Edit</a></Link>
             )} 
