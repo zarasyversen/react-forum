@@ -30,6 +30,11 @@ const Profile = () => {
           setCanEdit(result.canEdit);
         }
       )
+      .catch(function () {
+        // you get here if user does not exist
+        // add message - redirect back
+        router.push("/");
+      });
   }
 
   return (

@@ -18,7 +18,11 @@ function PostList ({ postList, canEdit}) {
 }
 
 PostList.propTypes = {
-  postList: PropTypes.array.isRequired
+  postList: PropTypes.array.isRequired,
+  canEdit: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object
+  ])
 }
 
 export default PostList

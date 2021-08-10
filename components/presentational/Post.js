@@ -19,7 +19,6 @@ function Post ({ postData, canEdit, index }) {
     }
   }, [canEdit])
   
-
   return (
     <li key={index}>
       <article className="post">
@@ -52,7 +51,12 @@ function Post ({ postData, canEdit, index }) {
 }
 
 Post.propTypes = {
-  postData: PropTypes.object.isRequired
+  postData: PropTypes.object.isRequired,
+  canEdit: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.object
+  ]),
+  index: PropTypes.number
 }
 
 export default Post

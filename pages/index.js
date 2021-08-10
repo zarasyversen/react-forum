@@ -68,7 +68,7 @@ export default function Index () {
           <>
             <h1>Welcome to our site.</h1>
             <LoginForm />
-            <p>Don't have an account? <Link href="/register"><a>Sign up now</a></Link>.</p>
+            <p>Don&apos;t have an account? <Link href="/register"><a>Sign up now</a></Link>.</p>
           </>
           }
         </>
