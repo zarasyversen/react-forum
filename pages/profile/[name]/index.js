@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import Head from 'next/head'
+import Link from 'next/link'
 import PostList from '../../../components/presentational/PostList'
 
 const Profile = () => {
@@ -20,49 +21,53 @@ const Profile = () => {
     fetch('https://php-project.test/api/profile/' + name, {
       method: 'POST',
       headers,
-      credentials: 'same-origin'
+      credentials: 'same-origin',
     })
-      .then(response => response.json())
-      .then(
-        (result) => {
-          setUser(result.user)
-          setUserPosts(result.postList)
-          setCanEdit(result.canEdit);
-        }
-      )
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+        setUser(result.user)
+        setUserPosts(result.postList)
+        setCanEdit(result.canEdit)
+      })
       .catch(function () {
         // you get here if user does not exist
         // add message - redirect back
-        router.push("/");
-      });
+        router.push('/')
+      })
   }
 
   return (
     <>
-    <Head>
+      <Head>
         <title>{user.name}</title>
-    </Head>
-    <div className="wrapper page-2column">
-      <header className="page-header">
-        <h1>{user.name}</h1>
-      </header>
-      <aside className="page-sidebar">
-        {user.avatar && 
-         <img src={`https://php-project.test/${user.avatar}`}/>
-        }
-        <p>Profile created: {user.createdAt}</p>
-        {user.isAdmin && 
-        <p>This user is an admin.</p>
-        }
-      </aside>
-      <main className="page-main">
-        <section className="profile__posts">
-          <h2>Posts by {user.name}</h2>
-          <PostList postList={userPosts} canEdit={canEdit}></PostList>
-        </section>
-        <a href="/">Return to all posts</a>
-      </main>
-    </div>
+      </Head>
+      <div className="wrapper page-2column">
+        <header className="page-header">
+          <h1>{user.name}</h1>
+        </header>
+        <aside className="page-sidebar">
+          {user.avatar && (
+            <img src={`https://php-project.test/${user.avatar}`} />
+          )}
+          <p>Profile created: {user.createdAt}</p>
+          {canEdit && (
+            <Link href={`/profile/${user.name}/avatar/create`}>
+              <a>Edit Avatar</a>
+            </Link>
+          )}
+          {user.isAdmin && <p>This user is an admin.</p>}
+        </aside>
+        <main className="page-main">
+          <section className="profile__posts">
+            <h2>Posts by {user.name}</h2>
+            <PostList postList={userPosts} canEdit={canEdit}></PostList>
+          </section>
+          <Link href="/">
+            <a>Return to all posts</a>
+          </Link>
+        </main>
+      </div>
     </>
   )
 }
