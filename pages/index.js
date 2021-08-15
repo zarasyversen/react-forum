@@ -32,7 +32,6 @@ export default function Index () {
           if (result.error) {
             setPageTitle('Welcome, please log in')
           } else {
-            console.log(result);
             setActiveUser(result.activeUser)
             setAllPosts(result.postList)
             setPageTitle('Welcome')
@@ -59,7 +58,7 @@ export default function Index () {
        <p>Loading...</p>
       ) : (
         <>
-          <SessionMessage type="success" text="Hello there" />
+          {/* <SessionMessage type="success" text="Hello there" /> */}
           {activeUser &&
             <>
               <NavBar userName={activeUser.name} />
