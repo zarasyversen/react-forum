@@ -15,7 +15,7 @@ function NavBar ({ userName }) {
           <Link href="/" className="menu__title"><a>All Posts</a></Link>
         </li>
         <li className="menu__item">
-          <Link href="/reset/password" className="menu__title"><a>Reset Password</a></Link>
+          <Link href="/reset" className="menu__title"><a>Reset Password</a></Link>
         </li> 
         <li className="menu__item">
           <Link href="/logout" className="menu__title"><a>Log Out</a></Link>
