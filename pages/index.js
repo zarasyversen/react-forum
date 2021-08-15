@@ -7,13 +7,13 @@ import PostList from '../components/presentational/PostList'
 import NavBar from '../components/presentational/NavBar'
 import { useEffect, useState } from 'react'
 
-export default function Index () {
+export default function Index() {
   const [isBusy, setBusy] = useState(true)
   const [activeUser, setActiveUser] = useState('')
   const [pageTitle, setPageTitle] = useState('')
   const [allPosts, setAllPosts] = useState([])
 
-  function getData () {
+  function getData() {
     const token = localStorage.getItem('userToken')
     const headers = { 'Content-Type': 'application/json' }
     if (token) {
@@ -23,21 +23,55 @@ export default function Index () {
     fetch('https://php-project.test/api/welcome', {
       method: 'POST',
       headers,
-      credentials: 'same-origin'
+      credentials: 'same-origin',
     })
-      .then(response => response.json())
-      .then(
-        (result) => {
-          setBusy(false)
-          if (result.error) {
-            setPageTitle('Welcome, please log in')
-          } else {
-            setActiveUser(result.activeUser)
-            setAllPosts(result.postList)
-            setPageTitle('Welcome')
-          }
+      .then((response) => response.json())
+      .then((result) => {
+        setBusy(false)
+        if (result.error) {
+          setPageTitle('Welcome, please log in')
+        } else {
+          setPageTitle('Welcome')
+          getActiveUser()
+          getPosts()
         }
-      )
+      })
+  }
+
+  function getPosts() {
+    const token = localStorage.getItem('userToken')
+    const headers = { 'Content-Type': 'application/json' }
+    if (token) {
+      headers.Authorization = `${token}`
+    }
+
+    fetch('https://php-project.test/api/allposts', {
+      method: 'POST',
+      headers,
+      credentials: 'same-origin',
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        setAllPosts(result.postList)
+      })
+  }
+
+  function getActiveUser() {
+    const token = localStorage.getItem('userToken')
+    const headers = { 'Content-Type': 'application/json' }
+    if (token) {
+      headers.Authorization = `${token}`
+    }
+
+    fetch('https://php-project.test/api/activeuser', {
+      method: 'POST',
+      headers,
+      credentials: 'same-origin',
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        setActiveUser(result.activeUser)
+      })
   }
 
   useEffect(() => {
@@ -45,41 +79,49 @@ export default function Index () {
   }, [])
 
   function updatePosts() {
-    getData();
+    getPosts()
   }
 
   return (
-    <div className="wrapper">
+    <>
       <Head>
         <title>{pageTitle}</title>
       </Head>
-      <main>
-      {isBusy ? (
-       <p>Loading...</p>
-      ) : (
-        <>
-          {/* <SessionMessage type="success" text="Hello there" /> */}
-          {activeUser &&
+      {activeUser && <NavBar userName={activeUser.name} />}
+      <div className="wrapper">
+        <main>
+          {isBusy ? (
+            <p>Loading...</p>
+          ) : (
             <>
-              <NavBar userName={activeUser.name} />
-              <h1>Hi {activeUser.name}, Welcome to our site</h1>
-              <NewPost updatePostsMethod={updatePosts}/>
-              <section className="posts">
-                <h2>Posts</h2>
-                <PostList postList={allPosts} canEdit={activeUser}/>
-              </section>
+              {/* <SessionMessage type="success" text="Hello there" /> */}
+              {activeUser && (
+                <>
+                  <h1>Hi {activeUser.name}, Welcome to our site</h1>
+                  <NewPost updatePostsMethod={updatePosts} />
+                  <section className="posts">
+                    <h2>Posts</h2>
+                    <PostList postList={allPosts} canEdit={activeUser} />
+                  </section>
+                </>
+              )}
+              {!activeUser && (
+                <>
+                  <h1>Welcome to our site.</h1>
+                  <LoginForm />
+                  <p>
+                    Don&apos;t have an account?{' '}
+                    <Link href="/register">
+                      <a>Sign up now</a>
+                    </Link>
+                    .
+                  </p>
+                </>
+              )}
             </>
-          }
-          {!activeUser &&
-          <>
-            <h1>Welcome to our site.</h1>
-            <LoginForm />
-            <p>Don&apos;t have an account? <Link href="/register"><a>Sign up now</a></Link>.</p>
-          </>
-          }
-        </>
-      )}
-      </main>
-    </div>
+          )}
+        </main>
+      </div>
+    </>
   )
 }

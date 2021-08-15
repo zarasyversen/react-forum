@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
-import Button from '../../../../../components/elements/Button'
+import Button from '../../../../components/elements/Button'
 import Link from 'next/link'
 
 const Profile = () => {
@@ -43,7 +43,25 @@ const Profile = () => {
   }, [])
 
 
-  function deleteAvatar() {}
+  function deleteAvatar() {
+    const headers = {}
+    const token = localStorage.getItem('userToken')
+    if (token) {
+      headers.Authorization = `${token}`
+    }
+    fetch('https://php-project.test/api/profile/' + name + '/avatar/delete', {
+      method: 'POST',
+      headers,
+      credentials: 'same-origin',
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
 
   function handleSubmit(event) {
     event.preventDefault()
