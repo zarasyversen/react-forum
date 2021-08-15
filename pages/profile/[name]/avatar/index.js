@@ -11,7 +11,9 @@ const Profile = () => {
   const [userAvatar, setUserAvatar] = useState('')
   const [user, setUser] = useState({})
   const [errorMessage, setErrorMessage] = useState('')
+  const [pageTitle, setPageTitle] = useState('Upload Avatar')
   const profileUrl = '/profile/' + name + '/'
+
 
   useEffect(() => {
     const token = localStorage.getItem('userToken')
@@ -29,6 +31,9 @@ const Profile = () => {
       .then((result) => {
         setUser(result.user)
 
+        if (result.user.avatar) {
+          setPageTitle('Edit Your Avatar')
+        } 
         // remove user from page if they dont have edit access
         if (!result.canEdit) {
           router.push(profileUrl)
@@ -101,19 +106,21 @@ const Profile = () => {
   return (
     <>
       <Head>
-        <title>Update Avatar</title>
+        <title>{pageTitle}</title>
       </Head>
       {isBusy ? (
         <p>Loading...</p>
       ) : (
         <div className="wrapper page-2column">
           <header className="page-header">
-            <h1>Update Avatar</h1>
+            <h1>{pageTitle}</h1>
           </header>
           <aside className="page-sidebar">
             <h2>Current Avatar</h2>
-            {user.avatar && (
+            {user.avatar ? (
               <img src={`https://php-project.test/${user.avatar}`} />
+            ) : (
+              <p>You don&apos;t have one!</p>
             )}
           </aside>
           <main className="page-main">
