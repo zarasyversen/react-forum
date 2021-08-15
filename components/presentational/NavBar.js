@@ -9,7 +9,7 @@ function NavBar ({ userName }) {
           <span>{`>>`}</span>
         </li>
         <li className="menu__item">
-          <Link href={`profile/${userName}`} className="menu__title"><a>My Profile</a></Link>
+          <Link href={`/profile/${userName}`} className="menu__title"><a>My Profile</a></Link>
         </li>
         <li className="menu__item">
           <Link href="/" className="menu__title"><a>All Posts</a></Link>
