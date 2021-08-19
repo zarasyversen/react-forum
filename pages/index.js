@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import LoginForm from '../components/containers/LoginForm'
 import NewPost from '../components/containers/NewPost'
-import SessionMessage from '../components/elements/SessionMessage'
+import SessionMessage from '../components/presentational/SessionMessage'
 import PostList from '../components/presentational/PostList'
 import NavBar from '../components/presentational/NavBar'
 import { useEffect, useState } from 'react'
@@ -94,7 +94,7 @@ export default function Index() {
             <p>Loading...</p>
           ) : (
             <>
-              {/* <SessionMessage type="success" text="Hello there" /> */}
+              <SessionMessage />
               {activeUser && (
                 <>
                   <h1>Hi {activeUser.name}, Welcome to our site</h1>

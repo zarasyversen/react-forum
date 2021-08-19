@@ -2,11 +2,13 @@ import Button from '../elements/Button'
 import FieldGroup from '../elements/FieldGroup'
 import TextArea from '../elements/TextArea'
 import { useState } from 'react'
+import { useDispatchMessage } from '../Message'
 
 export default function NewPost ( props ) {
   const [postTitle, setPostTitle] = useState('')
   const [postMessage, setPostMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const dispatch = useDispatchMessage()
 
   function handleSubmit (event) {
     event.preventDefault()
@@ -39,6 +41,11 @@ export default function NewPost ( props ) {
           }
 
           if (result.session_success) {
+            dispatch({
+              type: 'SET_MESSAGE',
+              text: 'hejsan',
+              messageType: 'success'
+            })
             // posted add message
             // update post list 
             setPostTitle('')
