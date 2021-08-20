@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Button from '../../../../components/elements/Button'
 import Link from 'next/link'
+import { useDispatchMessage } from '../../../../components/Message'
 
 const Profile = () => {
   const router = useRouter()
@@ -13,7 +14,7 @@ const Profile = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const [pageTitle, setPageTitle] = useState('Upload Avatar')
   const profileUrl = '/profile/' + name + '/'
-
+  const dispatch = useDispatchMessage()
 
   useEffect(() => {
     const token = localStorage.getItem('userToken')
@@ -36,6 +37,11 @@ const Profile = () => {
         } 
         // remove user from page if they dont have edit access
         if (!result.canEdit) {
+          dispatch({
+            type: 'SET_MESSAGE',
+            text: 'Sorry, you are not allowed to access this page.',
+            messageType: 'error'
+          })
           router.push(profileUrl)
         } else {
           setBusy(false)
@@ -43,6 +49,11 @@ const Profile = () => {
       })
       .catch(function () {
         // user does not exist
+        dispatch({
+          type: 'SET_MESSAGE',
+          text: 'Sorry, you are not allowed to access this page.',
+          messageType: 'error'
+        })
         router.push('/')
       })
   }, [])
@@ -61,7 +72,12 @@ const Profile = () => {
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log(result)
+        dispatch({
+          type: 'SET_MESSAGE',
+          text: result.session_success,
+          messageType: 'success'
+        })
+        router.push(profileUrl)
       })
       .catch(function (error) {
         console.log(error)
@@ -91,6 +107,11 @@ const Profile = () => {
           setErrorMessage(result.session_error)
         } else {
           setErrorMessage('')
+          dispatch({
+            type: 'SET_MESSAGE',
+            text: result.session_success,
+            messageType: 'success'
+          })
           router.push(profileUrl)
         }
       })

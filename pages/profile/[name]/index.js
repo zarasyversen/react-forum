@@ -4,6 +4,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import PostList from '../../../components/presentational/PostList'
 import NavBar from '../../../components/presentational/NavBar'
+import SessionMessage from '../../../components/presentational/SessionMessage'
 
 const Profile = () => {
   const router = useRouter()
@@ -66,6 +67,7 @@ const Profile = () => {
       </Head>
       <NavBar userName={activeUser.name} />
       <div className="wrapper page-2column">
+        <SessionMessage />
         <header className="page-header">
           <h1>{user.name}</h1>
         </header>
