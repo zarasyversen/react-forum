@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import PostList from '../../../components/presentational/PostList'
@@ -14,7 +14,11 @@ const Profile = () => {
   const [canEdit, setCanEdit] = useState(false)
   const [userPosts, setUserPosts] = useState([])
 
-  if (name && !user.name) {
+  useEffect(() => {
+    getData()
+  }, [name])
+
+  function getData()  {
     const token = localStorage.getItem('userToken')
     const headers = { 'Content-Type': 'application/json' }
     if (token) {
@@ -65,7 +69,7 @@ const Profile = () => {
       <Head>
         <title>{user.name}</title>
       </Head>
-      <NavBar userName={activeUser.name} />
+      {activeUser && <NavBar userName={activeUser.name} />}
       <div className="wrapper page-2column">
         <SessionMessage />
         <header className="page-header">
