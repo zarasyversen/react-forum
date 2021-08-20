@@ -24,7 +24,6 @@ export default function LoginForm () {
       .then(response => response.json())
       .then(
         (result) => {
-          console.log(result)
 
           if (result.missingUsername || result.missingPassword) {
             if (result.missingUsername) {

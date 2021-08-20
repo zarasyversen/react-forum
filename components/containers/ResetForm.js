@@ -3,12 +3,14 @@ import FieldGroup from '../elements/FieldGroup'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { useDispatchMessage } from '../Message'
 
 export default function ReesetForm() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
+  const dispatch = useDispatchMessage()
 
   function handleSubmit(event) {
     event.preventDefault()
@@ -42,6 +44,11 @@ export default function ReesetForm() {
           }
 
           if (result.session_success) {
+            dispatch({
+              type: 'SET_MESSAGE',
+              text: result.session_success,
+              messageType: 'success'
+            })
             localStorage.removeItem('userToken')
             router.push('/')
           }

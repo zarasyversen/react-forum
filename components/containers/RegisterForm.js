@@ -2,6 +2,7 @@ import Button from '../elements/Button'
 import FieldGroup from '../elements/FieldGroup'
 import { useState } from 'react'
 import { useRouter } from 'next/router'
+import { useDispatchMessage } from '../Message'
 
 export default function RegisterForm () {
   const [username, setUserName] = useState('')
@@ -9,6 +10,7 @@ export default function RegisterForm () {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
+  const dispatch = useDispatchMessage()
 
   function handleSubmit (event) {
     event.preventDefault()
@@ -26,7 +28,6 @@ export default function RegisterForm () {
       .then(response => response.json())
       .then(
         (result) => {
-          console.log(result)
 
           if (result.missingUsername || result.missingPassword || result.confirmPassword) {
             if (result.missingUsername) {
@@ -45,6 +46,11 @@ export default function RegisterForm () {
           }
 
           if (result.session_success) {
+            dispatch({
+              type: 'SET_MESSAGE',
+              text: result.session_success,
+              messageType: 'success'
+            })
             router.push('/')
           }
         },
