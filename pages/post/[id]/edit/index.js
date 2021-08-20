@@ -4,6 +4,7 @@ import Head from 'next/head'
 import Button from '../../../../components/elements/Button'
 import FieldGroup from '../../../../components/elements/FieldGroup'
 import TextArea from '../../../../components/elements/TextArea'
+import { useDispatchMessage } from '../../../../components/Message'
 
 const Edit = () => {
   const router = useRouter()
@@ -12,7 +13,14 @@ const Edit = () => {
   const [postTitle, setPostTitle] = useState('')
   const [postMessage, setPostMessage] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
-  const token = localStorage.getItem('userToken')
+  let token
+
+
+  if (typeof window !== 'undefined') {
+    token = localStorage.getItem('userToken')
+  }
+
+  const dispatch = useDispatchMessage()
 
   if (id && !post.title) {
     const headers = { 'Content-Type': 'application/json' }
@@ -31,14 +39,16 @@ const Edit = () => {
         setPostMessage(result.post.message)
       })
       .catch(function () {
-        // you get here if user cant edit the post or post does not exist
-        // add message - redirect back
+        dispatch({
+          type: 'SET_MESSAGE',
+          text: 'Sorry, you are not allowed to edit that post.',
+          messageType: 'error'
+        })
         router.push('/')
       })
   }
 
   function handleSubmit(event) {
-    ////
     event.preventDefault()
     const headers = {}
     if (token) {
@@ -57,10 +67,13 @@ const Edit = () => {
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log(result)
-        // add message - redirect back
 
         if (result.session_success) {
+          dispatch({
+            type: 'SET_MESSAGE',
+            text: result.session_success,
+            messageType: 'success'
+          })
           router.push('/')
         }
 
@@ -95,9 +108,12 @@ const Edit = () => {
       })
         .then((response) => response.json())
         .then((result) => {
-          console.log(result)
-          // add message - redirect back
           if (result.session_success) {
+            dispatch({
+              type: 'SET_MESSAGE',
+              text: result.session_success,
+              messageType: 'success'
+            })
             router.push('/')
           }
         })

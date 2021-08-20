@@ -43,7 +43,7 @@ export default function NewPost ( props ) {
           if (result.session_success) {
             dispatch({
               type: 'SET_MESSAGE',
-              text: 'hejsan',
+              text: result.session_success,
               messageType: 'success'
             })
             // posted add message

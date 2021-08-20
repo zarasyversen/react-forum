@@ -6,7 +6,7 @@ const SessionMessage = () => {
   const dispatch = useDispatchMessage()
 
   useEffect(() => {
-    if (Object.keys(message).length !== 0) {
+    if (message && Object.keys(message).length !== 0) {
       setTimeout(function () {
         dispatch({
           type: 'CLEAR_MESSAGE',
@@ -17,7 +17,7 @@ const SessionMessage = () => {
 
   return (
     <>
-      {Object.keys(message).length !== 0 && (
+      {message && Object.keys(message).length !== 0 && (
         <div className={`session-message ${message.messageType}`}>
           {message.messageType === 'success' && (
             <svg
